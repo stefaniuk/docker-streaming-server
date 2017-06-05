@@ -12,4 +12,4 @@ dependencies:
 test:
   override:
     - docker run --interactive --tty --detach --name=streaming-server codeworksio/streaming-server; sleep 10
-    - docker logs streaming-server | grep "Listening to incoming connections"
+    - docker ps | grep streaming-server
