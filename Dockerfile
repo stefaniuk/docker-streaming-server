@@ -25,6 +25,8 @@ RUN set -ex \
     && tar -xf nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION.tar.gz \
     && cd /tmp/nginx-$NGINX_VERSION \
     && ./configure \
+        --user=$SYSTEM_USER \
+        --group=$SYSTEM_USER \
         --sbin-path=/sbin/nginx \
         --conf-path=/etc/nginx.conf \
         --http-log-path=/var/log/nginx/access.log \
