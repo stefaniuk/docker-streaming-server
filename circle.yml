@@ -7,9 +7,9 @@ dependencies:
   override:
     - docker info
     - if [[ -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
-    - docker build --tag codeworksio/rtmp .
-    - mkdir -p ~/docker; docker save codeworksio/rtmp > ~/docker/image.tar
+    - docker build --tag codeworksio/streaming-server .
+    - mkdir -p ~/docker; docker save codeworksio/streaming-server > ~/docker/image.tar
 test:
   override:
-    - docker run --interactive --tty --detach --name=rtmp codeworksio/rtmp; sleep 10
-    - docker logs rtmp | grep "Listening to incoming connections"
+    - docker run --interactive --tty --detach --name=streaming-server codeworksio/streaming-server; sleep 10
+    - docker logs streaming-server | grep "Listening to incoming connections"

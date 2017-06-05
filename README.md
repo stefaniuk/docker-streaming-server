@@ -1,21 +1,21 @@
-[![Circle CI](https://circleci.com/gh/codeworksio/docker-rtmp.svg?style=shield "CircleCI")](https://circleci.com/gh/codeworksio/docker-rtmp)&nbsp;[![Size](https://images.microbadger.com/badges/image/codeworksio/rtmp.svg)](http://microbadger.com/images/codeworksio/rtmp)&nbsp;[![Version](https://images.microbadger.com/badges/version/codeworksio/rtmp.svg)](http://microbadger.com/images/codeworksio/rtmp)&nbsp;[![Commit](https://images.microbadger.com/badges/commit/codeworksio/rtmp.svg)](http://microbadger.com/images/codeworksio/rtmp)&nbsp;[![Docker Hub](https://img.shields.io/docker/pulls/codeworksio/rtmp.svg)](https://hub.docker.com/r/codeworksio/rtmp/)
+[![Circle CI](https://circleci.com/gh/codeworksio/docker-streaming-server.svg?style=shield "CircleCI")](https://circleci.com/gh/codeworksio/docker-streaming-server)&nbsp;[![Size](https://images.microbadger.com/badges/image/codeworksio/streaming-server.svg)](http://microbadger.com/images/codeworksio/streaming-server)&nbsp;[![Version](https://images.microbadger.com/badges/version/codeworksio/streaming-server.svg)](http://microbadger.com/images/codeworksio/streaming-server)&nbsp;[![Commit](https://images.microbadger.com/badges/commit/codeworksio/streaming-server.svg)](http://microbadger.com/images/codeworksio/streaming-server)&nbsp;[![Docker Hub](https://img.shields.io/docker/pulls/codeworksio/streaming-server.svg)](https://hub.docker.com/r/codeworksio/streaming-server/)
 
-Docker RTMP
-====================
+Docker Streaming Server
+=======================
 
 ?
 
 Installation
 ------------
 
-Builds of the image are available on [Docker Hub](https://hub.docker.com/r/codeworksio/rtmp/).
+Builds of the image are available on [Docker Hub](https://hub.docker.com/r/codeworksio/streaming-server/).
 
-    docker pull codeworksio/rtmp
+    docker pull codeworksio/streaming-server
 
 Alternatively you can build the image yourself.
 
-    docker build --tag codeworksio/rtmp \
-        github.com/codeworksio/docker-rtmp
+    docker build --tag codeworksio/streaming-server \
+        github.com/codeworksio/docker-streaming-server
 
 Quickstart
 ----------
@@ -23,13 +23,13 @@ Quickstart
 Start container using:
 
     docker run --detach --restart always \
-        --name rtmp \
-        --hostname rtmp \
+        --name streaming-server \
+        --hostname streaming-server \
         --publish 1935:1935 \
-        codeworksio/rtmp
+        codeworksio/streaming-server
 
 See
 ---
 
-- [OBS post](https://obsproject.com/forum/resources/how-to-set-up-your-own-private-rtmp-server-using-nginx.50/)
-- [tiangolo/nginx-rtmp-docker](https://github.com/tiangolo/nginx-rtmp-docker)
+- [OBS post](https://obsproject.com/forum/resources/how-to-set-up-your-own-private-streaming-server-server-using-nginx.50/)
+- [tiangolo/nginx-streaming-server-docker](https://github.com/tiangolo/nginx-streaming-server-docker)
