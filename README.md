@@ -26,6 +26,7 @@ Start container using:
         --name streaming-server \
         --hostname streaming-server \
         --publish 1935:1935 \
+        --publish 8080:8080 \
         codeworksio/streaming-server
 
 See

@@ -32,6 +32,7 @@ start:
 		--env "INIT_RUN_AS=root" \
 		--env "INIT_GOSU=false" \
 		--publish 1935:1935 \
+		--publish 8080:8080 \
 		$(IMAGE) \
 
 stop:

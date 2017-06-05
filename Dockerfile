@@ -2,8 +2,8 @@ FROM codeworksio/ubuntu:16.04-20170605
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL
-ENV NGINX_VERSION="1.11.3" \
-    NGINX_RTMP_MODULE_VERSION="1.1.9"
+ENV NGINX_VERSION="1.13.1" \
+    NGINX_RTMP_MODULE_VERSION="1.1.11"
 
 RUN set -ex \
     \
@@ -28,14 +28,14 @@ RUN set -ex \
     && ./configure \
         --sbin-path=/usr/local/sbin/nginx \
         --conf-path=/etc/nginx/nginx.conf \
-        --error-log-path=/var/log/nginx/error.log \
-        --pid-path=/var/run/nginx/nginx.pid \
         --lock-path=/var/lock/nginx/nginx.lock \
+        --pid-path=/var/run/nginx/nginx.pid \
         --http-log-path=/var/log/nginx/access.log \
+        --error-log-path=/var/log/nginx/error.log \
         --http-client-body-temp-path=/tmp/nginx-client-body \
-        --with-http_ssl_module \
         --with-threads \
-        --with-ipv6 \
+        --with-file-aio \
+        --with-http_ssl_module \
         --add-module=/tmp/nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION \
     && make \
     && make install \
@@ -48,7 +48,7 @@ RUN set -ex \
 COPY assets/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 COPY assets/sbin/bootstrap.sh /sbin/bootstrap.sh
 
-EXPOSE 1935
+EXPOSE 1935 8080
 CMD [ "nginx", "-g", "daemon off;" ]
 
 ### METADATA ###################################################################

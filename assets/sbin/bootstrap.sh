@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+mkdir -p /tmp/{hls,dash}
 mkdir -p /var/log/nginx
 chown -R $SYSTEM_USER:$SYSTEM_USER /var/log/nginx
 
