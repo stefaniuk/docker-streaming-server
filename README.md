@@ -3,7 +3,7 @@
 Docker Streaming Server
 =======================
 
-?
+A robust way of streaming media live with [NGINX](https://nginx.org/) web server and its [RTMP](https://github.com/tiangolo/nginx-rtmp-docker) module.
 
 Installation
 ------------
@@ -33,4 +33,3 @@ See
 ---
 
 - [OBS post](https://obsproject.com/forum/resources/how-to-set-up-your-own-private-streaming-server-server-using-nginx.50/)
-- [tiangolo/nginx-streaming-server-docker](https://github.com/tiangolo/nginx-streaming-server-docker)

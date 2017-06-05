@@ -23,6 +23,7 @@ RUN set -ex \
     && tar -xf nginx-$NGINX_VERSION.tar.gz \
     && curl -L "https://github.com/arut/nginx-rtmp-module/archive/v${NGINX_RTMP_MODULE_VERSION}.tar.gz" -o nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION.tar.gz \
     && tar -xf nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION.tar.gz \
+    \
     && cd /tmp/nginx-$NGINX_VERSION \
     && ./configure \
         --user=$SYSTEM_USER \
@@ -38,6 +39,9 @@ RUN set -ex \
     && make \
     && make install \
     \
+    && mkdir -p /usr/local/nginx /var/log/nginx \
+    && chown -R $SYSTEM_USER:$SYSTEM_USER /usr/local/nginx /var/log/nginx \
+    \
     && apt-get purge --yes --auto-remove $buildDeps \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
     && rm -f /etc/apt/apt.conf.d/00proxy
@@ -45,6 +49,7 @@ RUN set -ex \
 COPY assets/etc/nginx.conf /etc/nginx.conf
 COPY assets/sbin/bootstrap.sh /sbin/bootstrap.sh
 
+VOLUME [ "/var/lib/nginx" ]
 EXPOSE 1935 8080
 CMD [ "nginx", "-g", "daemon off;" ]
 
