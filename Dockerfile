@@ -17,7 +17,6 @@ RUN set -ex \
     && apt-get --yes update \
     && apt-get --yes install \
         $buildDeps \
-        openssl \
     \
     && cd /tmp \
     && curl -L "https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz" -o nginx-$NGINX_VERSION.tar.gz \
@@ -26,26 +25,22 @@ RUN set -ex \
     && tar -xf nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION.tar.gz \
     && cd /tmp/nginx-$NGINX_VERSION \
     && ./configure \
-        --sbin-path=/usr/local/sbin/nginx \
-        --conf-path=/etc/nginx/nginx.conf \
-        --lock-path=/var/lock/nginx/nginx.lock \
-        --pid-path=/var/run/nginx/nginx.pid \
+        --sbin-path=/sbin/nginx \
+        --conf-path=/etc/nginx.conf \
         --http-log-path=/var/log/nginx/access.log \
         --error-log-path=/var/log/nginx/error.log \
-        --http-client-body-temp-path=/tmp/nginx-client-body \
         --with-threads \
         --with-file-aio \
         --with-http_ssl_module \
         --add-module=/tmp/nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION \
     && make \
     && make install \
-    && mkdir /var/lock/nginx \
     \
     && apt-get purge --yes --auto-remove $buildDeps \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
     && rm -f /etc/apt/apt.conf.d/00proxy
 
-COPY assets/etc/nginx/nginx.conf /etc/nginx/nginx.conf
+COPY assets/etc/nginx.conf /etc/nginx.conf
 COPY assets/sbin/bootstrap.sh /sbin/bootstrap.sh
 
 EXPOSE 1935 8080
