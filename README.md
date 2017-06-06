@@ -3,7 +3,7 @@
 Docker Streaming Server
 =======================
 
-A robust way of streaming media live with the [NGINX](https://nginx.org/) web server and its [RTMP](https://github.com/tiangolo/nginx-rtmp-docker) module.
+A robust way of streaming media content live using the [NGINX](https://nginx.org/) web server and its [RTMP](https://github.com/tiangolo/nginx-rtmp-docker) module.
 
 Installation
 ------------
