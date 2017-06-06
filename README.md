@@ -41,7 +41,7 @@ Example
 
 2. Use [Open Broadcaster Software](https://obsproject.com/) to stream your content
 
-    * Add media source, i.e. `Video Capture Device`
+    * Add media source, e.g. `Video Capture Device`
     * Configure streaming server (`Settings` > `Stream`)
         - Stream type: `Custom Streaming Server`
         - URL: `rtmp://localhost/live`
