@@ -3,7 +3,7 @@
 Docker Streaming Server
 =======================
 
-A robust way of streaming media live with [NGINX](https://nginx.org/) web server and its [RTMP](https://github.com/tiangolo/nginx-rtmp-docker) module.
+A robust way of streaming media live with the [NGINX](https://nginx.org/) web server and its [RTMP](https://github.com/tiangolo/nginx-rtmp-docker) module.
 
 Installation
 ------------
@@ -28,6 +28,27 @@ Start container using:
         --publish 1935:1935 \
         --publish 8080:8080 \
         codeworksio/streaming-server
+
+Example
+-------
+
+1. Start the streaming server and consumer from the command line
+
+    ```bash
+    cd ./docs/examples
+    docker-compose up -d
+    ```
+
+2. Use [Open Broadcaster Software](https://obsproject.com/) to stream your content
+
+    * Add media source, i.e. `Video Capture Device`
+    * Configure streaming server (`Settings` > `Stream`)
+        - Stream type: `Custom Streaming Server`
+        - URL: `rtmp://localhost/live`
+        - Stream key: `test`
+    * Press `Start Streaming` button
+
+3. Go to `http://localhost:9999` URL address in your browser to view the media live.
 
 See
 ---

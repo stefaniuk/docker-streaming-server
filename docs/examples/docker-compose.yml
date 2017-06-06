@@ -1,0 +1,18 @@
+version: '2'
+services:
+  streaming-server:
+    build: ../..
+    image: codeworksio/streaming-server
+    container_name: streaming-server
+    volumes:
+      - ../../data:/var/lib/nginx
+    ports:
+      - "1935:1935"
+      - "8080:8080"
+  streaming-consumer:
+    image: nginx
+    container_name: streaming-consumer
+    volumes:
+      - .:/usr/share/nginx/html:ro
+    ports:
+      - "9999:80"
