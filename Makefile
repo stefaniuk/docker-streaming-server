@@ -1,5 +1,5 @@
 NAME := $(subst docker-,,$(shell basename $(shell dirname $(realpath  $(lastword $(MAKEFILE_LIST))))))
-IMAGE :=  codeworksio/$(NAME)
+IMAGE :=  $(shell basename $(shell dirname $(realpath  $(lastword $(MAKEFILE_LIST))/..)))/$(NAME)
 
 all: help
 
