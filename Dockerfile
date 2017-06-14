@@ -1,4 +1,4 @@
-FROM codeworksio/ubuntu:16.04-20170613
+FROM codeworksio/ubuntu:16.04-20170614
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL
@@ -45,9 +45,6 @@ RUN set -ex \
     && apt-get purge --yes --auto-remove $buildDeps \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
     && rm -f /etc/apt/apt.conf.d/00proxy
-
-COPY assets/etc/nginx.conf /etc/nginx.conf
-COPY assets/sbin/bootstrap.sh /sbin/bootstrap.sh
 
 VOLUME [ "/var/lib/nginx" ]
 EXPOSE 1935 8080

@@ -1,5 +1,6 @@
 .git
 .gitignore
+.gitkeep
 circle.yml
 Makefile
 README.md
