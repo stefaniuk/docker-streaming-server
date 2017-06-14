@@ -46,6 +46,8 @@ RUN set -ex \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
     && rm -f /etc/apt/apt.conf.d/00proxy
 
+ONBUILD COPY assets/ /
+
 VOLUME [ "/var/lib/nginx" ]
 EXPOSE 1935 8080
 CMD [ "nginx", "-g", "daemon off;" ]
