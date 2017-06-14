@@ -33,7 +33,7 @@ start:
 		--volume $(shell pwd)/data:/var/lib/nginx \
 		--publish 1935:1935 \
 		--publish 8080:8080 \
-		$(IMAGE) \
+		$(IMAGE)
 
 stop:
 	docker stop $(NAME)
