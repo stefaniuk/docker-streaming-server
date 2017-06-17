@@ -6,7 +6,7 @@ services:
     image: codeworksio/streaming-server
     container_name: streaming-server
     volumes:
-      - ../../data/var/lib/streaming:/var/lib/streaming
+      - ../../mounts/var/lib/streaming:/var/lib/streaming
     ports:
       - "1935:1935"
       - "8080:8080"

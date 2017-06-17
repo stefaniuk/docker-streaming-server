@@ -30,7 +30,7 @@ start:
 	docker run --detach --interactive --tty \
 		--name $(NAME) \
 		--hostname $(NAME) \
-		--volume $(shell pwd)/data/var/lib/streaming:/var/lib/streaming \
+		--volume $(shell pwd)/mounts/var/lib/streaming:/var/lib/streaming \
 		--publish 1935:1935 \
 		--publish 8080:8080 \
 		--publish 8443:8443 \
