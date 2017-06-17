@@ -1,9 +1,8 @@
-FROM codeworksio/ubuntu:16.04-20170615
+FROM codeworksio/nginx:1.31.1-20170615
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL
-ENV NGINX_VERSION="1.13.1" \
-    NGINX_RTMP_MODULE_VERSION="1.1.11"
+ENV NGINX_RTMP_MODULE_VERSION="1.1.11"
 
 RUN set -ex \
     \
@@ -14,9 +13,11 @@ RUN set -ex \
     ' \
     && if [ -n "$APT_PROXY" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/00proxy; fi \
     && if [ -n "$APT_PROXY_SSL" ]; then echo "Acquire::https { Proxy \"https://${APT_PROXY_SSL}\"; };" > /etc/apt/apt.conf.d/00proxy; fi \
+    && apt-add-repository ppa:jonathonf/ffmpeg-3 \
     && apt-get --yes update \
     && apt-get --yes install \
         $buildDeps \
+        ffmpeg \
     \
     && cd /tmp \
     && curl -L "https://nginx.org/download/nginx-$NGINX_VERSION.tar.gz" -o nginx-$NGINX_VERSION.tar.gz \
@@ -26,21 +27,12 @@ RUN set -ex \
     \
     && cd /tmp/nginx-$NGINX_VERSION \
     && ./configure \
-        --user=$SYSTEM_USER \
-        --group=$SYSTEM_USER \
-        --sbin-path=/sbin/nginx \
-        --conf-path=/etc/nginx.conf \
-        --http-log-path=/var/log/nginx/access.log \
-        --error-log-path=/var/log/nginx/error.log \
-        --with-threads \
-        --with-file-aio \
-        --with-http_ssl_module \
-        --add-module=/tmp/nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION \
-    && make \
-    && make install \
-    \
-    && mkdir -p /usr/local/nginx /var/log/nginx \
-    && chown -R $SYSTEM_USER:$SYSTEM_USER /usr/local/nginx /var/log/nginx \
+        $(nginx -V 2>&1 | grep 'configure arguments:' | sed 's/configure arguments://g') \
+        --add-dynamic-module=/tmp/nginx-rtmp-module-$NGINX_RTMP_MODULE_VERSION \
+    && make modules \
+    && mkdir -p /usr/local/nginx/modules \
+    && cp -v objs/ngx_rtmp_module.so /usr/local/nginx/modules \
+    && chown -R $SYSTEM_USER:$SYSTEM_USER /usr/local/nginx/modules \
     \
     && apt-get purge --yes --auto-remove $buildDeps \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
@@ -48,8 +40,8 @@ RUN set -ex \
 
 ONBUILD COPY assets/ /
 
-VOLUME [ "/var/lib/nginx" ]
-EXPOSE 1935 8080
+VOLUME [ "/var/lib/streaming" ]
+EXPOSE 1935 8080 8443
 CMD [ "nginx", "-g", "daemon off;" ]
 
 ### METADATA ###################################################################

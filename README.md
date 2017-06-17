@@ -27,6 +27,7 @@ Start container using:
         --hostname streaming-server \
         --publish 1935:1935 \
         --publish 8080:8080 \
+        --publish 8443:8443 \
         codeworksio/streaming-server
 
 Example
@@ -35,7 +36,7 @@ Example
 1. Start the streaming server and consumer from the command line
 
     ```bash
-    cd ./docs/examples
+    cd ./documents/examples
     docker-compose up -d
     ```
 
