@@ -1,4 +1,4 @@
-FROM codeworksio/nginx:1.31.1-20170615
+FROM codeworksio/nginx:1.31.1-20170618
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL
@@ -6,17 +6,17 @@ ENV NGINX_RTMP_MODULE_VERSION="1.1.11"
 
 RUN set -ex \
     \
-    && buildDeps=' \
+    && buildDependencies="\
         build-essential \
         libpcre3-dev \
         libssl-dev \
-    ' \
+    " \
     && if [ -n "$APT_PROXY" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/00proxy; fi \
     && if [ -n "$APT_PROXY_SSL" ]; then echo "Acquire::https { Proxy \"https://${APT_PROXY_SSL}\"; };" > /etc/apt/apt.conf.d/00proxy; fi \
     && apt-add-repository ppa:jonathonf/ffmpeg-3 \
     && apt-get --yes update \
     && apt-get --yes install \
-        $buildDeps \
+        $buildDependencies \
         ffmpeg \
     \
     && cd /tmp \
@@ -34,11 +34,16 @@ RUN set -ex \
     && cp -v objs/ngx_rtmp_module.so /usr/local/nginx/modules \
     && chown -R $SYSTEM_USER:$SYSTEM_USER /usr/local/nginx/modules \
     \
-    && apt-get purge --yes --auto-remove $buildDeps \
+    && mkdir -p \
+        /var/lib/streaming/hls \
+        /var/lib/streaming/dash \
+    && chown -R $SYSTEM_USER:$SYSTEM_USER /var/lib/streaming \
+    \
+    && apt-get purge --yes --auto-remove $buildDependencies \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
     && rm -f /etc/apt/apt.conf.d/00proxy
 
-ONBUILD COPY assets/ /
+COPY assets/ /
 
 VOLUME [ "/var/lib/streaming" ]
 EXPOSE 1935 8080 8443
