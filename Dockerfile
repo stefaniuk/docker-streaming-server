@@ -1,4 +1,4 @@
-FROM codeworksio/nginx:1.31.1-20170618
+FROM codeworksio/nginx:1.31.1-20170619
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL
@@ -32,12 +32,13 @@ RUN set -ex \
     && make modules \
     && mkdir -p /usr/local/nginx/modules \
     && cp -v objs/ngx_rtmp_module.so /usr/local/nginx/modules \
-    && chown -R $SYSTEM_USER:$SYSTEM_USER /usr/local/nginx/modules \
     \
     && mkdir -p \
         /var/lib/streaming/hls \
         /var/lib/streaming/dash \
-    && chown -R $SYSTEM_USER:$SYSTEM_USER /var/lib/streaming \
+    && chown -R $SYSTEM_USER:$SYSTEM_USER \
+        /usr/local/nginx/modules \
+        /var/lib/streaming \
     \
     && apt-get purge --yes --auto-remove $buildDependencies \
     && rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* /var/cache/apt/* \
