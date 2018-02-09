@@ -11,5 +11,5 @@ dependencies:
     - mkdir -p ~/docker; docker save codeworksio/streaming-server > ~/docker/image.tar
 test:
   override:
-    - docker run --interactive --tty --detach --name=streaming-server codeworksio/streaming-server; sleep 10
+    - docker run --detach --interactive --tty --name streaming-server codeworksio/streaming-server; sleep 10
     - docker ps | grep streaming-server
