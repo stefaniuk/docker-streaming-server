@@ -45,7 +45,7 @@ log:
 
 test:
 	docker exec --interactive --tty \
-		--user "ubuntu" \
+		--user ubuntu \
 		$(NAME) \
 		ps auxw
 
