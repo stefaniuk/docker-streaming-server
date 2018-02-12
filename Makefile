@@ -44,10 +44,9 @@ log:
 	docker logs --follow $(NAME)
 
 test:
-	docker exec --interactive --tty \
-		--user ubuntu \
-		$(NAME) \
-		ps auxw
+	docker run --detach --interactive --tty --name streaming-server codeworksio/streaming-server
+	sleep 10
+	docker ps | grep streaming-server
 
 bash:
 	docker exec --interactive --tty \
@@ -62,6 +61,7 @@ clean:
 push:
 	docker push $(IMAGE):$(shell cat VERSION)
 	docker push $(IMAGE):latest
+	sleep 10
 	curl --request POST "https://hooks.microbadger.com/images/$(IMAGE)/o6WEpIkU6QkdRAOuZ9EcPx6djOo="
 
 .SILENT:

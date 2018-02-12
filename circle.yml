@@ -1,15 +1,9 @@
 machine:
   services:
     - docker
-dependencies:
-  cache_directories:
-    - "~/docker"
-  override:
-    - docker info
-    - if [[ -e ~/docker/image.tar ]]; then docker load --input ~/docker/image.tar; fi
-    - docker build --tag codeworksio/streaming-server .
-    - mkdir -p ~/docker; docker save codeworksio/streaming-server > ~/docker/image.tar
 test:
   override:
-    - docker run --detach --interactive --tty --name streaming-server codeworksio/streaming-server; sleep 10
-    - docker ps | grep streaming-server
+    - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+    - make build
+    - make test
+    - make push
