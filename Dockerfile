@@ -1,4 +1,4 @@
-FROM codeworksio/nginx:1.13.8-20180212
+FROM codeworksio/nginx:1.15.8-20190219
 
 ARG APT_PROXY
 ARG APT_PROXY_SSL
@@ -14,8 +14,6 @@ RUN set -ex; \
     "; \
     if [ -n "$APT_PROXY" ]; then echo "Acquire::http { Proxy \"http://${APT_PROXY}\"; };" > /etc/apt/apt.conf.d/00proxy; fi; \
     if [ -n "$APT_PROXY_SSL" ]; then echo "Acquire::https { Proxy \"https://${APT_PROXY_SSL}\"; };" > /etc/apt/apt.conf.d/00proxy; fi; \
-    apt-key adv --keyserver hkp://ha.pool.sks-keyservers.net:80 --recv-keys "4AB0F789CBA31744CC7DA76A8CF63AD3F06FC659"; \
-    echo "deb http://ppa.launchpad.net/jonathonf/ffmpeg-3/ubuntu xenial main" > /etc/apt/sources.list.d/ffmpeg.list; \
     apt-get --yes update; \
     apt-get --yes install \
         $buildDependencies \
