@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: streaming-server
+  name: streaming-server
+spec:
+  ports:
+  - name: "1935"
+    port: 1935
+    targetPort: 1935
+  - name: "8080"
+    port: 8080
+    targetPort: 8080
+  selector:
+    io.kompose.service: streaming-server
+status:
+  loadBalancer: {}
