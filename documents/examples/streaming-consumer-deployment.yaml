@@ -1,0 +1,34 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: streaming-consumer
+  name: streaming-consumer
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: streaming-consumer
+    spec:
+      containers:
+      - image: codeworksio/nginx
+        name: streaming-consumer
+        ports:
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - mountPath: /var/www
+          name: streaming-consumer-claim0
+          readOnly: true
+      restartPolicy: Always
+      volumes:
+      - name: streaming-consumer-claim0
+        persistentVolumeClaim:
+          claimName: streaming-consumer-claim0
+          readOnly: true
+status: {}
