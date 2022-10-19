@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.1 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: streaming-consumer
+  name: streaming-consumer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: streaming-consumer
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.26.1 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: streaming-consumer
+    spec:
+      # initContainers:
+      #   - name: init
+      #     image: busybox:1.28
+      #     command: ['sh', '-c', "mkdir -p /var/log/nginx/ && touch /var/log/nginx/error.log && touch /var/log/nginx/error.log "]
+      #     volumeMounts:
+      #         - mountPath: /var/log/
+      #           name: streaming-consumer-claim1
+      #           readOnly: false
+      containers:
+        - image: codeworksio/nginx
+          name: streaming-consumer
+          #command: [ "/sbin/init.sh", "--debug" ]
+          ports:
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/www
+              name: streaming-consumer-claim0
+              readOnly: false
+            # - mountPath: /var/log/
+            #   name: streaming-consumer-claim1
+            #   readOnly: false
+      restartPolicy: Always
+      volumes:
+        - name: streaming-consumer-claim0
+          persistentVolumeClaim:
+            claimName: streaming-consumer-claim0
+            readOnly: false
+        # - name: streaming-consumer-claim1
+        #   persistentVolumeClaim:
+        #     claimName: streaming-consumer-claim1
+        #     readOnly: false
+status: {}

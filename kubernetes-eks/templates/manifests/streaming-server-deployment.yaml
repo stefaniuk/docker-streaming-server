@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -c
+    kompose.version: 1.26.1 (HEAD)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: streaming-server
+  name: streaming-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: streaming-server
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -c
+        kompose.version: 1.26.1 (HEAD)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: streaming-server
+    spec:
+      initContainers:
+        - name: init
+          image: busybox:1.28
+          command: ['sh', '-c', "mkdir -p /var/lib/streaming/hls/ && chmod -R 777 /var/lib/streaming/"]
+          volumeMounts:
+              - mountPath: /var/lib/streaming
+                name: streaming-server-claim0
+      containers:   
+        - image: codeworksio/streaming-server
+          name: streaming-server
+          ports:
+            - containerPort: 1935
+            - containerPort: 8080
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/streaming
+              name: streaming-server-claim0
+      restartPolicy: Always
+      volumes:
+        - name: streaming-server-claim0
+          persistentVolumeClaim:
+            claimName: streaming-server-claim0
+status: {}
