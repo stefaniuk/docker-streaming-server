@@ -1,4 +1,4 @@
-## Deployment of Streaming Server on EKS 
+# Deployment of Streaming Server on EKS 
 
 1. create EKS Cluster
 
@@ -25,7 +25,7 @@ alias kap='kubectl apply -f'
 
 2. Check if there is storage class or any pvs
 
-# Get storage class  
+## Get storage class  
 
 ```bash
 k get sc && k get pv
@@ -62,7 +62,7 @@ k apply -f manifests
 I've add a InitContainer for the streaming server deployment to create a directory and give permission as the container was never starting and has this error:
 
 ```bash  
-k logs streaming-server-6998587d9c-7m5qm                                 
+k logs streaming-server-6998587d9c-7m5qm                                   
 nginx: [emerg] mkdir() "/var/lib/streaming/hls/" failed (13: Permission denied)
 ```
 
@@ -98,3 +98,27 @@ curl http://a56c0f9bec4bf4b05bbe0b00d5b2f8d6-1896631646.eu-west-1.elb.amazonaws.
 I have the same issue using the docker-compose. 
 
 From my test and research, it's not an error from my deployment and configuration but an error from the docker image and the permission.
+
+
+### Cleanup
+
+
+
+```bash
+k delete -f manifests                 
+persistentvolumeclaim "streaming-consumer-claim0" deleted
+deployment.apps "streaming-consumer" deleted
+service "streaming-consumer" deleted
+persistentvolumeclaim "streaming-server-claim0" deleted
+deployment.apps "streaming-server" deleted
+service "streaming-server-external" deleted
+service "streaming-server-internal" deleted
+```
+
+### Deleting EKS Cluster
+
+```bash
+eksctl delete cluster --name ${cluster_name}
+```
+
+And delete the role and policies created for the service account
