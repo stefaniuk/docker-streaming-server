@@ -12,7 +12,7 @@ eksctl create cluster \
 --version 1.23 \
 --region eu-west-1 \ 
 --nodegroup-name ${node_group_name} \
---node-type t2.medium \
+--node-type m5.large \
 --nodes 2
 
 1. Connect using the Kubeconfig file created and create alias 
@@ -70,7 +70,7 @@ nginx: [emerg] mkdir() "/var/lib/streaming/hls/" failed (13: Permission denied)
 - 1 ClusterIP ( default ) as it will be only internal
 - 2 Load Balancer's Type to be publicly accessible 
 
-I was able to connect on both ALB URL that I get from the svc but I have issue on the Nginx/streaming server ( Forbidden )
+I was able to connect on both ALB URL ( on port 1935 with OBS and from curl for port ) that I get from the svc but I have issue on the Nginx/streaming server ( Forbidden )
 
 
 ```bash
@@ -96,3 +96,5 @@ curl http://a56c0f9bec4bf4b05bbe0b00d5b2f8d6-1896631646.eu-west-1.elb.amazonaws.
 ```
 
 I have the same issue using the docker-compose. 
+
+From my test and research, it's not an error from my deployment and configuration but an error from the docker image and the permission.
